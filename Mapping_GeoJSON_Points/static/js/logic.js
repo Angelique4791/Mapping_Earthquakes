@@ -5,8 +5,6 @@ console.log("working");
 // Map with new center
 let map = L.map('mapid').setView([30, 30], 2);
 
-// Accessing the airport GeoJSON URL
-let airportData = "https://raw.githubusercontent.com/Angelique4791/Mapping_Earthquakes/Mapping_GeoJSON_Points/Mapping_GeoJSON_Points/static/js/majorAirports.json";
 
 
 // We create the tile layer that will be the background of our map.
@@ -37,6 +35,8 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
     accessToken: API_KEY
 });
 
+// Accessing the airport GeoJSON URL
+let airportData = "https://raw.githubusercontent.com/Angelique4791/Mapping_Earthquakes/Mapping_GeoJSON_Points/Mapping_GeoJSON_Points/static/js/majorAirports.json";
 
 //  Add a marker to the map for Los Angeles, California.
 // Loop through the cities array and create one marker for each city.
@@ -61,8 +61,12 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 d3.json(airportData).then(function(data) {
     console.log(data);
   // Creating a GeoJSON layer with the retrieved data.
-  L.geoJSON(data).addTo(map);
-});
+  L.geoJSON(data, {
+    onEachFeature: function(feature, layer){
+        console.log(layer);
+        layer.bindPopup("<h2>" + "Airport Code: " + feature.properties.faa + "</h2>" + "<hr>" + "</hr>" + "<h3>" + "Airport name: " + feature.properties.name + "</h3>" );}
+  }).addTo(map);
+})
 
 
 // Then we add our 'graymap' tile layer to the map.
