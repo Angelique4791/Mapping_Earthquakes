@@ -3,7 +3,7 @@ console.log("working");
 
 // Create the map object with a center and zoom level.
 // Map with new center
-let map = L.map('mapid').setView([30, 30], 2);
+// let map = L.map('mapid').setView([30, 30], 2);
 
 
 
@@ -35,27 +35,26 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
     accessToken: API_KEY
 });
 
+// Create a base layer that holds both maps.
+let baseMaps = {
+    Street: streets,
+    Dark: darkStreets,
+    Satellite: satStreets,
+    Light: lightStreets
+  };
+
+  // Create the map object with center, zoom level and default layer.
+let map = L.map('mapid', {
+    center: [30, 30],
+    zoom: 2,
+    layers: [streets]
+});
+
+// Pass our map layers into our layers control and add the layers control to the map.
+L.control.layers(baseMaps).addTo(map);
+
 // Accessing the airport GeoJSON URL
 let airportData = "https://raw.githubusercontent.com/Angelique4791/Mapping_Earthquakes/Mapping_GeoJSON_Points/Mapping_GeoJSON_Points/static/js/majorAirports.json";
-
-//  Add a marker to the map for Los Angeles, California.
-// Loop through the cities array and create one marker for each city.
-// cities.forEach(function(city) {
-//     console.log(city)
-//     L.circleMarker(city.location, {radius: city.population/200000, lineweight: "4", color: "orange", fillColor: "#ffffa7"})
-//     .bindPopup("<h2>" + city.city + ", " + city.state + "</h2> <hr> <h3>Population " + city.population.toLocaleString() + "</h3>")
-//     .addTo(map);
-// });
-
-//  Add a marker to the map for Los Angeles, California.
-// Loop through the cities array and create one marker for each city.
-// cities.forEach(function(city) {
-//     console.log(city)
-//     L.circleMarker(city.location, {radius: city.population/200000, lineweight: "4", color: "orange", fillColor: "#ffffa7"})
-//     .bindPopup("<h2>" + city.city + ", " + city.state + "</h2> <hr> <h3>Population " + city.population.toLocaleString() + "</h3>")
-//     .addTo(map);
-// });
-
 
 // Grabbing GeoJSON data.
 d3.json(airportData).then(function(data) {
